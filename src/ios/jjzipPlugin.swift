@@ -1,5 +1,5 @@
 //
-//  jjzipPlugin.swift
+//  JJzipPlugin.swift
 //  
 //
 //  Created by Pace Wisdom on 01/07/21.
@@ -9,7 +9,7 @@ import SSZipArchive
 
 
 // ZipPlugin class.
-@objc(jjzipPlugin) class jjzipPlugin : CDVPlugin {
+@objc(JJzipPlugin) class JJzipPlugin : CDVPlugin {
   
     //zip Method.
     func zip(_ command: CDVInvokedUrlCommand?) {
