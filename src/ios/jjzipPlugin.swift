@@ -9,7 +9,7 @@ import SSZipArchive
 
 
 // ZipPlugin class.
-@objc(ZipPlugin) class ZipPlugin : CDVPlugin {
+@objc(jjzipPlugin) class jjzipPlugin : CDVPlugin {
   
     //zip Method.
     func zip(_ command: CDVInvokedUrlCommand?) {
