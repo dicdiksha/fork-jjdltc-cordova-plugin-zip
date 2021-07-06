@@ -50,7 +50,7 @@ func getSourceDictionary(_ sourceString: String?) -> [AnyHashable : Any]? {
     ]
     return sourceDictionary
 }
-
+// directoriesTobeSkipped Method.
 func directoriesTobeSkipped() {
     let useridsaved = 1
     let fileManager = FileManager.default
@@ -66,7 +66,7 @@ func directoriesTobeSkipped() {
   }
 
 }
-
+// filesTobeSkipped Method.
 func filesTobeSkipped(){
 
 
