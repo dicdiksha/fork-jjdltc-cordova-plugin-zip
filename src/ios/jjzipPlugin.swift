@@ -17,7 +17,6 @@ import SSZipArchive
         let directoriesTobeSkipped = command.arguments[0] as? String
         let filesTobeSkipped = command.arguments[1] as? String
         let file = command.arguments[2] as? String
-
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Hi compress")
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
     }
@@ -53,7 +52,18 @@ func getSourceDictionary(_ sourceString: String?) -> [AnyHashable : Any]? {
 }
 
 func directoriesTobeSkipped() {
-
+    let useridsaved = 1
+    let fileManager = FileManager.default
+    let path = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask,true).first!
+    var sourceURL = URL(fileURLWithPath: path)
+    sourceURL.appendPathComponent("cropsapdb_up_\(useridsaved)")
+    var destinationURL = URL(fileURLWithPath: path)
+    destinationURL.appendPathComponent("cropsapdb_up_\(useridsaved).zip")
+    do {
+        try fileManager.zipItem(at: sourceURL, to: destinationURL, shouldKeepParent: false)
+    } catch {
+        print(error)
+  }
 
 }
 
