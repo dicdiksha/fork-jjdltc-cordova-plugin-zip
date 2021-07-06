@@ -13,6 +13,11 @@ import SSZipArchive
   
     //zip Method.
     func zip(_ command: CDVInvokedUrlCommand?) {
+       var pluginResult: CDVPluginResult = CDVPluginResult.init(status: CDVCommandStatus_ERROR)
+        let directoriesTobeSkipped = command.arguments[0] as? String
+        let filesTobeSkipped = command.arguments[1] as? String
+        let file = command.arguments[2] as? String
+
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Hi compress")
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
     }
@@ -47,6 +52,16 @@ func getSourceDictionary(_ sourceString: String?) -> [AnyHashable : Any]? {
     return sourceDictionary
 }
 
+func directoriesTobeSkipped() {
+
+
+}
+
+func filesTobeSkipped(){
+
+
+
+}
 
 
 // jsevent method.
