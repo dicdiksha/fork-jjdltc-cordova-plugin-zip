@@ -12,7 +12,7 @@ import SSZipArchive
 @objc(JJzipPlugin) class JJzipPlugin : CDVPlugin {
   
     //zip Method.
-    func zip(_ command: CDVInvokedUrlCommand?) {
+           @objc func zip(_ command: CDVInvokedUrlCommand?) {
        var pluginResult: CDVPluginResult = CDVPluginResult.init(status: CDVCommandStatus_ERROR)
         let directoriesTobeSkipped = command.arguments[0] as? String
         let filesTobeSkipped = command.arguments[1] as? String
@@ -22,7 +22,7 @@ import SSZipArchive
     }
 
 //unzip Method.
-  func unzip(_ command: CDVInvokedUrlCommand?) {
+          @objc func unzip(_ command: CDVInvokedUrlCommand?) {
     let sourceDictionary = getSourceDictionary(command?.argument(atIndex: 0))
     let targetOptions = command?.argument(atIndex: 1)
     let targetPath = targetOptions?.value(forKey: "target")?.replacingOccurrences(of: "file://", with: "")
