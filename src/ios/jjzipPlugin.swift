@@ -17,7 +17,7 @@ import SSZipArchive
         let directoriesTobeSkipped = command.arguments[0] as? String
         let filesTobeSkipped = command.arguments[1] as? String
         let file = command.arguments[2] as? String
-        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Hi compress")
+        //let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsString: "Hi compress")
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
     }
 
