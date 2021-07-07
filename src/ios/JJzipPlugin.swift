@@ -53,7 +53,7 @@ import SSZipArchive
     })
 }
 //unzip Method.
-    @objc func unzip(_ command: CDVInvokedUrlCommand?) {
+@objc func unzip(_ command: CDVInvokedUrlCommand?) {
     let sourceDictionary = getSourceDictionary(command?.argument(atIndex: 0))
     let targetOptions = command?.argument(atIndex: 1)
     let targetPath = targetOptions?.value(forKey: "target")?.replacingOccurrences(of: "file://", with: "")
