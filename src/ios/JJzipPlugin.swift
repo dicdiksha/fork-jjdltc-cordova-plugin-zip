@@ -10,10 +10,9 @@ import SSZipArchive
 
 // ZipPlugin class.
 @objc(JJzipPlugin) class JJzipPlugin : CDVPlugin {
-  
+
    func path(forURL urlString: String?) -> String? {
         // Attempt to use the File plugin to resolve the destination argument to a file path.
-
         var path: String? = nil
         let filePlugin = commandDelegate.getCommandInstance("File")
         if let filePlugin = filePlugin {
@@ -37,7 +36,6 @@ import SSZipArchive
 
  @objc func zip(_ command: CDVInvokedUrlCommand?) {
     var pluginResult: CDVPluginResult? = nil
-
     // TODO: import SwiftTryCatch from https://github.com/ypopovych/SwiftTryCatch
     SwiftTryCatch.try({
         let fromPath = path(forURL: command?.arguments[0])
@@ -55,7 +53,7 @@ import SSZipArchive
     })
 }
 //unzip Method.
-          @objc func unzip(_ command: CDVInvokedUrlCommand?) {
+    @objc func unzip(_ command: CDVInvokedUrlCommand?) {
     let sourceDictionary = getSourceDictionary(command?.argument(atIndex: 0))
     let targetOptions = command?.argument(atIndex: 1)
     let targetPath = targetOptions?.value(forKey: "target")?.replacingOccurrences(of: "file://", with: "")
