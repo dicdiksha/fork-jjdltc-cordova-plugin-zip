@@ -82,8 +82,6 @@ func getSourceDictionary(_ sourceString: String?) -> [AnyHashable : Any]? {
     return sourceDictionary
 }
 
-
-
 // jsevent method.
 func jsEvent(_ event: String?, _ data: String?) {
     var eventStrig = "cordova.fireDocumentEvent('\(event ?? "")'"
@@ -94,7 +92,6 @@ func jsEvent(_ event: String?, _ data: String?) {
     eventStrig = eventStrig + ");"
    commandDelegate.evalJs(eventStrig)
 }
-
 
 // dic method.
 func dictionary(toJSONString toCast: [AnyHashable : Any]?) -> String? {
