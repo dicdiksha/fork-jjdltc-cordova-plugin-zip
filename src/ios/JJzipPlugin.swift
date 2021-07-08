@@ -10,41 +10,47 @@ import SSZipArchive
 
 // ZipPlugin class.
 @objc(JJzipPlugin) class JJzipPlugin : CDVPlugin {
-
-   func path(forURL urlString: String?) -> String? {
-        // Attempt to use the File plugin to resolve the destination argument to a file path.
-        var path: String? = nil
-        let filePlugin = commandDelegate.getCommandInstance("File")
-        if let filePlugin = filePlugin {
-            let url = CDVFilesystemURL.fileSystemURL(with: urlString)
-            path = filePlugin.filesystemPath(for: url)
-        }
-
-        // If that didn't work for any reason, assume file: URL.
-
-        if path == nil {
-            if urlString?.hasPrefix("file:") ?? false {
-                path = URL(string: urlString ?? "")?.path
-            }
-        }
-
-        //return
-
-        return path
+    
+func path(forURL urlString: String?) -> String? {
+    // Attempt to use the File plugin to resolve the destination argument to a
+    // file path.
+    var path: String? = nil
+    let filePlugin = commandDelegate.getCommandInstance("File")
+    if let filePlugin = filePlugin {
+        let url = CDVFilesystemURL.fileSystemURL(with: urlString)
+        path = filePlugin.filesystemPath(for: url)
     }
+    // If that didn't work for any reason, assume file: URL.
+    if path == nil {
+        if urlString?.hasPrefix("file:") ?? false {
+            path = URL(string: urlString ?? "")?.path
+        }
+    }
+    return path
 }
 
+
+
+
  @objc func zip(_ command: CDVInvokedUrlCommand?) {
+
+
+    
+}
+
+
+//unzip Method.
+@objc func unzip(_ command: CDVInvokedUrlCommand?) {
     var pluginResult: CDVPluginResult? = nil
-    // TODO: import SwiftTryCatch from https://github.com/ypopovych/SwiftTryCatch
     SwiftTryCatch.try({
         let fromPath = path(forURL: command?.arguments[0])
         let toPath = path(forURL: command?.arguments[1])
+        var error: Error?
 
-        if SSZipArchive.createZipFile(atPath: toPath, withContentsOfDirectory: fromPath, keepParentDirectory: false, withPassword: nil) {
+        if SSZipArchive.unzipFile(atPath: fromPath, toDestination: toPath, overwrite: true, password: nil, error: &error, delegate: self) {
             pluginResult = CDVPluginResult(status: CDVCommandStatus_OK)
         } else {
-            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: "failed to zip")
+            pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: error?.localizedDescription)
         }
     }, catch: { exception in
         pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAsString: exception.reason())
@@ -52,35 +58,7 @@ import SSZipArchive
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
     })
 }
-//unzip Method.
-@objc func unzip(_ command: CDVInvokedUrlCommand?) {
-    let sourceDictionary = getSourceDictionary(command?.argument(atIndex: 0))
-    let targetOptions = command?.argument(atIndex: 1)
-    let targetPath = targetOptions?.value(forKey: "target")?.replacingOccurrences(of: "file://", with: "")
-    let sourcePath = sourceDictionary["path"] as? String
-    let sourceName = sourceDictionary["name"] as? String
-    let success = SSZipArchive.unzipFile(
-        atPath: (sourcePath ?? "") + (sourceName ?? ""),
-        toDestination: targetPath)
-    let responseObj = [
-        "success": NSNumber(value: success),
-        "message": "-"
-    ]
-    let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: responseObj)
-    commandDelegate.send(pluginResult, callbackId: command?.callbackId)
-}
 
-// getsource method.
-func getSourceDictionary(_ sourceString: String?) -> [AnyHashable : Any]? {
-    let lastIndexSlash = (sourceString as NSString?)?.range(of: "/", options: .backwards).location ?? 0
-    let path = (sourceString as NSString?)?.substring(with: NSRange(location: 0, length: lastIndexSlash + 1))
-    let name = (sourceString as NSString?)?.substring(from: lastIndexSlash + 1)
-    let sourceDictionary = [
-        "path": path?.replacingOccurrences(of: "file://", with: "") ?? "",
-        "name": name ?? ""
-    ]
-    return sourceDictionary
-}
 
 // jsevent method.
 func jsEvent(_ event: String?, _ data: String?) {
