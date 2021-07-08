@@ -10,7 +10,7 @@ import SSZipArchive
 
 // ZipPlugin class.
 @objc(JJzipPlugin) class JJzipPlugin : CDVPlugin {
-    
+
 func path(forURL urlString: String?) -> String? {
     // Attempt to use the File plugin to resolve the destination argument to a
     // file path.
@@ -28,13 +28,13 @@ func path(forURL urlString: String?) -> String? {
     }
     return path
 }
-
-
-
-
+//Zip Method.
  @objc func zip(_ command: CDVInvokedUrlCommand?) {
-
-
+ var pluginResult: CDVPluginResult = CDVPluginResult.init(status: CDVCommandStatus_ERROR)
+        let directoriesToBeSkipped = command.arguments[0] as? String
+        let filesToBeSkipped = command.arguments[1] as? [String]
+        pluginResult = CDVPluginResult.init(status: CDVCommandStatus_OK, messageAs: results)
+        self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
     
 }
 
