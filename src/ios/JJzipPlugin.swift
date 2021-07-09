@@ -33,6 +33,9 @@ func path(forURL urlString: String?) -> String? {
  var pluginResult: CDVPluginResult = CDVPluginResult.init(status: CDVCommandStatus_ERROR)
         let directoriesToBeSkipped = command.arguments[0] as? String
         let filesToBeSkipped = command.arguments[1] as? [String]
+        print.log(file+directoriesToBeSkipped);
+        print.log(filesToBeSkipped);
+        
         pluginResult = CDVPluginResult.init(status: CDVCommandStatus_OK, messageAs: results)
         self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
     
