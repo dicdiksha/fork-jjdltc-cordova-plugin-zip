@@ -20,7 +20,6 @@ import SSZipArchive
         
     }
     
-
 //UnZip Method.
  @objc func unzip(_ command: CDVInvokedUrlCommand?) {
     let sourceDictionary = getSourceDictionary(command?.argument(at: 0))
