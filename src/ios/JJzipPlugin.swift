@@ -41,7 +41,6 @@ import SSZipArchive
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: responseObj)
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
     
-
 }
 
 
