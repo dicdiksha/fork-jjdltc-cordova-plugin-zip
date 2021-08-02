@@ -8,7 +8,7 @@ import Foundation
 import SSZipArchive
 
 
-@objc(JJzipPlugin) class JJzipPlugin : CDVPlugin   {
+@objc(JJzip) class JJzip : CDVPlugin   {
     
    //ZiP Method.
     @objc func zip(_ command: CDVInvokedUrlCommand?) {

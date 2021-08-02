@@ -42,8 +42,6 @@ See a full copy of license in the root folder of the project
                 <param name="ios-package" value="JJzip" />
             </feature>
         </config-file>
-        <source-file src="src/ios/JJzip.h" />
-        <source-file src="src/ios/JJzip.m" />
         <source-file src="src/ios/JJzipPlugin.swift" />
         <framework src="libz.tbd" />
         <framework src="SSZipArchive" type="podspec" spec="~> 2.1.4" />
