@@ -1,14 +1,23 @@
+//
+//  JJzipPlugin.swift
+//
+//
+//  Created by Pace Wisdom on 01/07/21.
+//
 import Foundation
 import SSZipArchive
+
+
 @objc(JJzip) class JJzip : CDVPlugin   {
     
     //ZiP Method.
-    @objc func zip(_ command: CDVInvokedUrlCommand?) {
+    @objc func zip(_ command: CDVInvokedUrlCommand) {
         var pluginResult: CDVPluginResult = CDVPluginResult.init(status: CDVCommandStatus_ERROR)
-        let directoriesToBeSkipped = command?.arguments[0] as? String
-        let filesToBeSkipped = command?.arguments[1] as? [String]
-               pluginResult = CDVPluginResult.init(status: CDVCommandStatus_OK, messageAs:"Hi Compress..!!!")
-        self.commandDelegate.send(pluginResult, callbackId: command?.callbackId)
+        let source = command.arguments[0] as? String
+        let directoriesToBeSkipped = command.arguments[0] as? String
+        let filesToBeSkipped = command.arguments[1] as? [String]
+        pluginResult = CDVPluginResult.init(status: CDVCommandStatus_OK, messageAs:"Hi Compress..!!!")
+        self.commandDelegate.send(pluginResult, callbackId: command.callbackId)
         
     }
     
@@ -17,13 +26,7 @@ import SSZipArchive
         
             let sourceDirectory =  command.arguments[0] as? String
             guard let sourceDirectoryPath = sourceDirectory else {
-                let responseObj = [
-                    "success": false,
-                    "message": "decompress Operation fail due to source directory path is nil",
-                ] as [String : Any]
-
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseObj)
-                commandDelegate.send(pluginResult, callbackId: command.callbackId)
+                unZipErrorResponse(command,  "decompress Operation fail due to source directory path is nil")
                 return
             }
             let sourceDictionary = getSourceDictionary(sourceDirectoryPath)
@@ -32,13 +35,7 @@ import SSZipArchive
             let targetPath = (targetOptions as AnyObject).value(forKey: "target") as? String
             
             guard let targetPathString = targetPath else {
-                let responseObj = [
-                    "success": false,
-                    "message": "decompress Operation fail due to destination directory path is nil",
-                ] as [String : Any]
-
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseObj)
-                commandDelegate.send(pluginResult, callbackId: command.callbackId)
+                unZipErrorResponse(command, "decompress Operation fail due to destination directory path is nil")
                 return
             }
             
@@ -51,13 +48,7 @@ import SSZipArchive
             )
 
             if (success == false) {
-                let responseObj = [
-                    "success": false,
-                    "message": "decompress Operation fail",
-                ] as [String : Any]
-
-                let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseObj)
-                commandDelegate.send(pluginResult, callbackId: command.callbackId)
+                unZipErrorResponse(command, "decompress Operation fail")
                 return
             }
 
@@ -69,6 +60,16 @@ import SSZipArchive
             let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: responseObj)
                 commandDelegate.send(pluginResult, callbackId: command.callbackId)
         
+    }
+    
+    private func unZipErrorResponse(_ command: CDVInvokedUrlCommand, _ message: String) {
+        let responseObj = [
+            "success": false,
+            "message": message,
+        ] as [String : Any]
+
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseObj)
+        commandDelegate.send(pluginResult, callbackId: command.callbackId)
     }
 
 
