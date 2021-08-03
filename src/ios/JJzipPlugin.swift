@@ -22,24 +22,38 @@ import SSZipArchive
     
 //UnZip Method.
  @objc func unzip(_ command: CDVInvokedUrlCommand?) {
-    let sourceDictionary = getSourceDictionary(command?.argument(at: 0))
-    let targetOptions = command?.argument(at: 1)
-        let targetPath = targetOptions?.value(forKey: "target")?.replacingOccurrences(of: "file://", with: "")
-        let sourcePath = sourceDictionary["path"] as? String
-        let sourceName = sourceDictionary["name"] as? String
+    
+    do {
+        let sourceDictionary = getSourceDictionary(command?.arguments[0] as? String)
+        let targetOptions = command?.arguments[1]
+        var targetPath = (targetOptions! as AnyObject).value(forKey: "target") as! String
+        targetPath = targetPath.replacingOccurrences(of: "file://", with: "")
+        let sourcePath = sourceDictionary!["path"] as! String
+        let sourceName = sourceDictionary!["name"] as! String
 
-        let success = SSZipArchive.unzipFile(
-            atPath: (sourcePath ?? "") + (sourceName ?? ""),
-            toDestination: targetPath)
+            let success = SSZipArchive.unzipFile(
+                atPath: (sourcePath ?? "") + (sourceName ?? ""),
+                toDestination: targetPath
+            )
 
 
+            let responseObj = [
+                "success": true,
+                "message": "decompress Operation success"
+            ] as [String : Any]
+
+        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: responseObj)
+            commandDelegate.send(pluginResult, callbackId: command?.callbackId)
+    } catch let error {
         let responseObj = [
-            "success": NSNumber(value: success),
-            "message": "-"
-        ]
+            "success": false,
+            "message": "decompress Operation fail with \(error.localizedDescription)",
+        ] as [String : Any]
 
-        let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAsDictionary: responseObj)
+    let pluginResult = CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: responseObj)
         commandDelegate.send(pluginResult, callbackId: command?.callbackId)
+    }
+    
     
 }
 
