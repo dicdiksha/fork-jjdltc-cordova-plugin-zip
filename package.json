@@ -6,7 +6,7 @@
     "id": "com.jjdltc.cordova.plugin.zip",
     "platforms": [
       "android",
-      "ios"      
+      "ios"
     ]
   },
   "repository": {
@@ -25,8 +25,8 @@
   ],
   "engines": {
     "cordovaDependencies": {
-      "1.1.0": { 
-        "cordova" : ">=7.0.0",
+      "1.1.0": {
+        "cordova": ">=7.0.0",
         "cordova-ios": ">=4.4.0"
       }
     }
