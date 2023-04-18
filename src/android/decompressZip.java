@@ -57,6 +57,13 @@ public class decompressZip {
                 path.mkdir();
             } else {
                 File file = new File(filePath);
+                String canonicalPath = file.getCanonicalPath();
+                    if (!canonicalPath.startsWith(filePath)) {
+                        String errorMessage = "Zip traversal security error";
+                        callbackContext.error(errorMessage);
+                        Log.e(LOG_TAG, errorMessage);
+                        return;
+                    }
                 file.getParentFile().mkdirs();
                 if (file.exists() || file.createNewFile()) {
                     extractFile(zipFl, filePath);
