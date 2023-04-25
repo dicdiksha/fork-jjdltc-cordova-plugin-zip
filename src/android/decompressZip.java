@@ -62,7 +62,7 @@ public class decompressZip {
             } else {
                 File file = new File(filePath);
                 String canonicalPath = file.getCanonicalPath();
-                    if (!canonicalPath.startsWith(filePath)) {
+                    if (!canonicalPath.startsWith(actualTargetPath)) {
                         String errorMessage = "Zip traversal security error";
                         callbackContext.error(errorMessage);
                         Log.e(LOG_TAG, errorMessage);
